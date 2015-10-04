@@ -127,6 +127,7 @@ angular.module("angularDragAndDropDirective").directive("dropArea", ["$rootScope
     return {
         scope: {
             dropList: "=dropList",
+            dropReplace: "=dropReplace",
             onDrop: "=onDrop",
             dropTarget: "=dropTarget"
         },
@@ -138,6 +139,10 @@ angular.module("angularDragAndDropDirective").directive("dropArea", ["$rootScope
                     if ($rootScope.dragging.data != null) {
                         if (scope.dropList != null) {
                             scope.dropList.push($rootScope.dragging.data);
+                        }
+
+                        if (scope.dropReplace != null) {
+                            scope.dropReplace = $rootScope.dragging.data;
                         }
                     }
 
