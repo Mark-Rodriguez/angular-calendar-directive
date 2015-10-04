@@ -173,7 +173,7 @@ hr.small {
 }
 .header.orig{
     color:inherit;
-    background: url(../img/bg-orig.jpg) no-repeat center center scroll;
+    background: url(../img-resources/bg-orig.jpg) no-repeat center center scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
