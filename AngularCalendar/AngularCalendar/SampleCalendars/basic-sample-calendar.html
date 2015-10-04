@@ -1,0 +1,77 @@
+﻿<h1>Basic Calendar Example</h1>
+<div ng-controller="basic-calendar-controller">
+    <div class="calendar-top-menu clearfix">
+        <div class="view-buttons pull-left clearfix">
+            <div class="view-button" ng-class="{selected:calendar.settings.view == 'year'}" ng-click="setView('year')">Year</div>
+            <div class="view-button" ng-class="{selected:calendar.settings.view == 'month'}" ng-click="setView('month')">Month</div>
+            <div class="view-button" ng-class="{selected:calendar.settings.view == 'week'}" ng-click="setView('week');">Week</div>
+            <div class="view-button" ng-class="{selected:calendar.settings.view == 'day'}" ng-click="setView('day')">Day</div>
+        </div>
+        <div class="view-buttons header-center clearfix" ng-show="calendar.settings.view == 'year'">
+            <h2>{{getYear()}}</h2>
+        </div>
+        <div class="view-buttons header-center clearfix" ng-show="calendar.settings.view == 'month'">
+            {{getMonth()}}    {{getYear()}}
+        </div>
+        <div class="view-buttons header-center clearfix" ng-show="calendar.settings.view == 'week'">
+            Week {{getWeek()}},    {{getMonth()}}    {{getYear()}}
+        </div>
+        <div class="view-buttons header-center clearfix" ng-show="calendar.settings.view == 'day'">
+              {{getMonth()}}   {{getDay()}},   {{getYear()}}
+        </div>
+        <div class="view-buttons pull-right clearfix">
+            <div class="view-button" angular-calendar-time-btn calendar-settings="calendar.settings" previous-time>Previous</div>
+            <div class="view-button" angular-calendar-time-btn calendar-settings="calendar.settings" current-time>Current</div>
+            <div class="view-button" angular-calendar-time-btn calendar-settings="calendar.settings" next-time>Next</div>
+        </div>
+    </div>
+    <div angular-calendar calendar-settings="calendar.settings" calendar-data="calendar.data">
+
+    </div>
+</div>
+
+<style>
+    .month-week-day-cell{
+        cursor:pointer;
+    }
+    .month-week-day-cell:hover, .month-week-day-cell.selected{
+        background-color:#0275d8;
+    }
+    .month-week-day-cell:hover>.month-week-day-number, .month-week-day-cell.selected>.month-week-day-number{
+        color:#ccc;
+    }
+    .month-week-day-cell:hover>.month-week-day-number.current-month, .month-week-day-cell.selected>.month-week-day-number.current-month{
+        color:white;
+    }
+    .header-center{
+        position:absolute;
+        top:0px;
+        left:50%;
+        transform:translate(-50%, 0%);
+        line-height:35px;
+        font-size:24px;
+    }
+    .calendar-top-menu{
+        position:relative;
+        margin-bottom:10px;
+    }
+    .view-button {
+        cursor: pointer;
+        float: left;
+        padding: 5px;
+        padding-left:10px;
+        padding-right:10px;
+        border: solid 1px #ccc;
+        border-right: none;
+    }
+
+
+        .view-button:last-child {
+            border-right: solid 1px #ccc;
+        }
+
+        .view-button:hover, .view-button.selected {
+            background-color: #0275d8;
+            color: white;
+        }
+</style>
