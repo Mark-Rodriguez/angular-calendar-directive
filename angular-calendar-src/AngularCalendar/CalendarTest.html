@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/moment.js"></script>
+    <script src="angular-calendar-directive.js"></script>
+    <script src="angular-calendar-dev.js"></script>
+    <link rel="stylesheet" href="Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="angular-calendar-directive.css" />
+</head>
+<body ng-app="test-app">
+
+    <div ng-controller="test-controller">
+        <div class="col-lg-9">
+            <div class="calendar-top-menu clearfix">
+                <div class="view-buttons pull-left clearfix">
+                    <div class="view-button" ng-class="{selected:calendar.settings.view == 'week'}" ng-click="setView('week');">Week</div>
+                    <div class="view-button" ng-class="{selected:calendar.settings.view == 'month'}" ng-click="setView('month')">Month</div>
+                </div>
+                <div class="view-buttons pull-right clearfix">
+                    <div class="view-button" angular-calendar-time-btn calendar-settings="calendar.settings" previous-time>Previous</div>
+                    <div class="view-button" angular-calendar-time-btn calendar-settings="calendar.settings" current-time>Current</div>
+                    <div class="view-button" angular-calendar-time-btn calendar-settings="calendar.settings" next-time>Next</div>
+                </div>
+            </div>
+            <div angular-calendar calendar-settings="calendar.settings">
+
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .view-button{
+            cursor:pointer;
+            float:left;
+            padding:5px;
+            border:solid 1px #ccc;
+            border-right:none;
+        }
+        .view-button:first-child{
+            border-bottom-left-radius:5px;
+            border-top-left-radius:5px;
+        }
+        .view-button:last-child{
+            border-bottom-right-radius:5px;
+            border-top-right-radius:5px;
+            border-right:solid 1px #ccc;
+        }
+        .view-button:hover, .view-button.selected{
+            background-color:#ff006e;
+            color:white;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,6 @@
+F:\Users\mark\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\bin\AngularCalendar.dll.config
+F:\Users\mark\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\bin\AngularCalendar.dll
+F:\Users\mark\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\bin\AngularCalendar.pdb
+F:\Users\mark\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\obj\Release\AngularCalendar.csprojResolveAssemblyReference.cache
+F:\Users\mark\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\obj\Release\AngularCalendar.dll
+F:\Users\mark\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\obj\Release\AngularCalendar.pdb

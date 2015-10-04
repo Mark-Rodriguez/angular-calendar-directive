@@ -1,0 +1,67 @@
+﻿<div class="month-view-parent" ng-controller="angular-calendar-month-view-controller">
+    <div class="calendar-month-headers clearfix">
+        <div class="calendar-month-header">
+            Sunday
+        </div>
+        <div class="calendar-month-header">
+            Monday
+        </div>
+        <div class="calendar-month-header">
+            Tuesday
+        </div>
+        <div class="calendar-month-header">
+            Wednesday
+        </div>
+        <div class="calendar-month-header">
+            Thursday
+        </div>
+        <div class="calendar-month-header">
+            Friday
+        </div>
+        <div class="calendar-month-header">
+            Saturday
+        </div>
+    </div>
+    <div class="calendar-month-body">
+        <div class="month-week-row" ng-repeat="week in monthView.weeks">
+            <div class="week-row-days clearfix" ng-style="calendarSettings.weekRowStyles">
+                <div class="month-week-day-cell" drop-area drop-target="day" ng-repeat="day in week.days" ng-class="{selected:day.week.selectedDay == day}"
+                     ng-click="_internal.onDayClick(day);"
+                     ng-dblclick="_internal.onDayDblClick(day);"
+                     ng-mouseover="_internal.onDayMouseOver(day);"
+                     ng-mouseleave="_internal.onDayMouseOut(day);"
+                     ng-mousedown="_internal.onDayMouseDown(day);"
+                     ng-mouseup="_internal.onDayMouseUp(day);">
+                    <div class="month-week-day-number" ng-class="{'current-month':day.date.month() == currDate.month()}">
+                        {{day.date.date()}}
+                    </div>
+                    <div class="month-day-events">
+                        <div class="month-day-event" ng-repeat="event in day.events" ng-style="event.eventStyle">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="week-row-day-events" ng-show="week.selectedDay != null" ng-style="calendarSettings.weekRowStyles">
+                <div class="week-row-day-event" draggable drop-data="{ event:event, dragFromDay:week.selectedDay.date }" draggable-settings="calendarSettings.eventDragSettings" on-drop="_internal.onEventDrop" ng-repeat="event in week.selectedDay.events"
+                     ng-click="_internal.onEventClick(event)"
+                     ng-dblclick="_internal.onEventDblClick(event);"
+                     ng-mouseover="_internal.onEventMouseOver(event);"
+                     ng-mouseleave="_internal.onEventMouseOut(event);"
+                     ng-mousedown="_internal.onEventMouseDown(event);"
+                     ng-mouseup="_internal.onEventMouseUp(event);">
+                    <div class="pull-left day-event-name"> {{event.name}} {{_internal.getEventTimeForDay(event, week.selectedDay)}}</div> <div class="pull-left day-event-color-dot" ng-style="event.eventStyle"></div>
+                </div>
+            </div>
+            <div class="month-week-row-tag"
+                 ng-click="_internal.onWeekClick(week)"
+                 ng-dblclick="_internal.onWeekDblClick(week);"
+                 ng-mouseover="_internal.onWeekMouseOver(week);"
+                 ng-mouseleave="_internal.onWeekMouseOut(week);"
+                 ng-mousedown="_internal.onWeekMouseDown(week);"
+                 ng-mouseup="_internal.onWeekMouseUp(week);">
+                Week {{week.weekNumber}}
+            </div>
+        </div>
+    </div>
+</div>
