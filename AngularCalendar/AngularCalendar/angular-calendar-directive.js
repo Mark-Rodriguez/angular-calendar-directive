@@ -9,6 +9,13 @@
         link: function link(scope, element, attrs) {
             var dir = "CalendarTemplates/";
             
+            if (scope.calendarSettings.eventDragSettings == null)
+            {
+                scope.calendarSettings.eventDragSettings = {
+                    overlayTemplate:"<div class='dragging-overlay bg-primary row text-center' style='pointer-events:none;position:fixed;background-color: #333;padding:5px;-webkit-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.75);-moz-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.75);box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.75);'></div>"
+                };
+            }
+
             if (attrs.calendarTemplateDirectory != null && attrs.calendarTemplateDirectory != undefined)
             {
                 dir = attrs.calendarTemplateDirectory;
@@ -168,7 +175,7 @@ angular.module("angularCalendarDirective").controller("angular-calendar-month-vi
     
     $scope._internal = {
         getEventTimeForDay:function(event, day){
-
+            
             var ds = moment(event.dateStart);
             var de = null;
 
@@ -176,22 +183,67 @@ angular.module("angularCalendarDirective").controller("angular-calendar-month-vi
                 de = moment(event.dateEnd);
             }
 
-            if (de == null || (ds.dayOfYear() == de.dayOfYear() && ds.year() == de.year()))
+            if (de == null || (ds.dayOfYear() == de.dayOfYear && ds.year() == de.year()))
             {
                 return ds.format("h:mm A") + ((de != null) ? " - " + de.format("h:mm A") : "");
             }
-        },
-        onEventDrop:function(dropElement, day, event)
-        {
-            event.dateStart = moment(day.date);
-            event.dateEnd = moment(day.date);
 
+            var dt = moment(day.date);
+
+            if (ds.dayOfYear() == dt.dayOfYear() && ds.year() == dt.year())
+            {
+                return ds.format("h:mm A") + " - " + de.format("MMM D, h:mm A");
+            }
+            else
+            {
+                if (de.dayOfYear() == dt.dayOfYear() && de.year() == dt.year())
+                {
+                    return ds.format("MMM D, h:mm A") + " - " + de.format("h:mm A");
+                }
+                else
+                {
+                    return ds.format("MMM D, h:mm A") + " - " + de.format("MMM D, h:mm A");
+                }
+            }
+        },
+        onEventDrop:function(dropElement, day, dragData)
+        {
+            //month view event shifting calculations
+
+            var event = dragData.event;
+
+            //If the event spans multiple days this is used to calculate 
+            //from which day of the event this drag operation should be calculated.
+            var dragFromDay = dragData.dragFromDay;
+
+            var diff = moment(day.date).diff(dragFromDay, "days");
+
+            //shift event start by diff days
+            var es = moment(event.dateStart).add(diff, "days");
+
+            var ee = null;
+
+            if (event.dateEnd != null) {
+                //shift event end by diff days
+                ee = moment(event.dateEnd).add(diff, "days");
+            }
+
+            //if user has defined an on event time change function pass start and end times to function.
+            //Otherwise auto change event dates.
             if ($scope.calendarData.onEventTimeChange != null) {
-                $scope.calendarData.onEventTimeChange(event, moment(day.date), null)
+                if ($scope.calendarData.onEventTimeChange(dragData.event, es, ee))
+                {
+                    event.dateStart = es;
+                    event.dateEnd = ee;
+                }
+            }
+            else {
+                event.dateStart = es;
+                event.dateEnd = ee;
             }
         },
         onDayClick: function (day) {
-
+            
             if ($scope.monthView.selectedDay != day) {
                 $scope.monthView.selectedDay = day;
 
@@ -267,6 +319,36 @@ angular.module("angularCalendarDirective").controller("angular-calendar-month-vi
             if ($scope.calendarSettings.onEventMouseUp != null) {
                 $scope.calendarSettings.onEventMouseUp(event);
             }
+        },
+        onWeekClick: function (week) {
+            if ($scope.calendarSettings.onWeekClick != null) {
+                $scope.calendarSettings.onWeekClick(week);
+            }
+        },
+        onWeekDblClick: function (week) {
+            if ($scope.calendarSettings.onWeekDblClick != null) {
+                $scope.calendarSettings.onWeekDblClick(week);
+            }
+        },
+        onWeekMouseOver: function (week) {
+            if ($scope.calendarSettings.onWeekMouseOver != null) {
+                $scope.calendarSettings.onWeekMouseOver(week);
+            }
+        },
+        onWeekMouseOut: function (week) {
+            if ($scope.calendarSettings.onWeekMouseOut != null) {
+                $scope.calendarSettings.onWeekMouseOut(week);
+            }
+        },
+        onWeekMouseDown: function (week) {
+            if ($scope.calendarSettings.onWeekMouseDown != null) {
+                $scope.calendarSettings.onWeekMouseDown(week);
+            }
+        },
+        onWeekMouseUp: function (week) {
+            if ($scope.calendarSettings.onWeekMouseUp != null) {
+                $scope.calendarSettings.onWeekMouseUp(week);
+            }
         }
     };
 
@@ -289,6 +371,13 @@ angular.module("angularCalendarDirective").controller("angular-calendar-month-vi
 
     $scope.buildMonthView = function () {
 
+        var selectedDay = null;
+
+        if ($scope.monthView != null)
+        {
+            selectedDay = $scope.monthView.selectedDay;
+        }
+
         $scope.monthView = {
             weeks: [
             {
@@ -307,36 +396,70 @@ angular.module("angularCalendarDirective").controller("angular-calendar-month-vi
                 days: []
             }]
         };
-
-
-
+        
         var mom = moment($scope.calendarSettings.currentDate);
         
         $scope.currDate = mom.clone();
 
-        var first = mom.clone().date(1);
+        var first = mom.clone().startOf("month");
+
+        var last = mom.clone().endOf("month");
+
+        var evts = [];
 
         var sund = first.clone().day("sunday").startOf("day");
 
+        var endD = sund.clone().add(35, "days").endOf("day");
+
         var curr = sund.clone();
+
+        var startWeek = sund.week();
 
         for (var g = 0; g < $scope.calendarData.events.length; g++)
         {
-            var first = true;
+            var e = $scope.calendarData.events[g];
 
-            $scope.calendarData.events[g].eventStyle = {};
-
-            if ($scope.calendarData.events[g].backgroundColor != null) {
-                $scope.calendarData.events[g].eventStyle["background-color"] = $scope.calendarData.events[g].backgroundColor;
+            var ds = e.dateStart.clone == null ? moment(e.dateStart) : e.dateStart.clone();
+            var de = ds;
+            
+            if (e.dateEnd != null)
+            {
+                ds = e.dateEnd.clone == null ? moment(e.dateEnd) : e.dateEnd.clone();
             }
 
-            if ($scope.calendarData.events[g].color != null) {
-                $scope.calendarData.events[g].eventStyle["color"] = $scope.calendarData.events[g].color;
+            if (ds.diff(endD) <= 0)
+            {
+                if (de.diff(sund) >= 0)
+                {
+                    evts.push($scope.calendarData.events[g]);
+                }
+            }
+        }
+
+        for (var g = 0; g < evts.length; g++)
+        {
+            var first = true;
+
+            if (evts[g].eventStyle == null) {
+                evts[g].eventStyle = {};
+
+                if (evts[g].backgroundColor != null) {
+                    evts[g].eventStyle["background-color"] = evts[g].backgroundColor;
+                }
+
+                if (evts[g].color != null) {
+                    evts[g].eventStyle["color"] = evts[g].color;
+                }
             }
         }
 
         for (var g = 0; g < 5; g++) {
             $scope.monthView.weeks[g].days = [];
+
+            var wn = sund.clone().add(g, "weeks").week();
+            $scope.monthView.weeks[g].weekNumber = wn;
+
+            $scope.monthView.weeks[g].start = curr.clone();
 
             for (var h = 0; h < 7; h++) {
 
@@ -346,14 +469,21 @@ angular.module("angularCalendarDirective").controller("angular-calendar-month-vi
                     events: []
                 };
 
-                for (var i = 0; i < $scope.calendarData.events.length; i++)
+                if (selectedDay != null) {
+                    if (day.date.diff(selectedDay.date, "days") == 0) {
+                        $scope.monthView.weeks[g].selectedDay = day;
+                        $scope.monthView.selectedDay = day;
+                    }
+                }
+
+                for (var i = 0; i < evts.length; i++)
                 {
-                    var ds = moment($scope.calendarData.events[i].dateStart).startOf("day");
+                    var ds = moment(evts[i].dateStart).startOf("day");
                     var de = null;
 
-                    if ($scope.calendarData.events[i].dateEnd != null)
+                    if (evts[i].dateEnd != null)
                     {
-                        de = moment($scope.calendarData.events[i].dateEnd).endOf("day");
+                        de = moment(evts[i].dateEnd).endOf("day");
                     }
                     else
                     {
@@ -377,7 +507,7 @@ angular.module("angularCalendarDirective").controller("angular-calendar-month-vi
 
                     if (add)
                     {
-                        day.events.push($scope.calendarData.events[i]);
+                        day.events.push(evts[i]);
                     }
                 }
 
@@ -419,7 +549,7 @@ angular.module("angularCalendarDirective").controller("angular-calendar-month-vi
                         var ov = moment(oldValue);
                         if (nv.format("x") != ov.format("x")) {
                             if (nv.month() != ov.month()) {
-                                $scope.buildMonthView();
+                                $scope.calendarSettings._internalDateChanged();
                             }
                         }
                     }

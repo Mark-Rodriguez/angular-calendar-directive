@@ -16,8 +16,27 @@
     }
     .calendar-month-body{
     }
+    .month-week-row-tag{
+        position:absolute;
+        left:0px;
+        top:0px;
+        transform:translate(-100%, 0%);
+        padding:8px;
+        background-color:#fff;
+        border:solid 1px #ccc;
+        border-right:none;
+        display:none;
+        cursor:pointer;
+    }
+    .month-week-row-tag:hover{
+        text-decoration:underline;
+    }
     .month-week-row{
         width:100%;
+        position:relative;
+    }
+    .month-week-row:hover>.month-week-row-tag{
+        display:block;
     }
     .month-week-day-cell{
         width:14.285714285%;

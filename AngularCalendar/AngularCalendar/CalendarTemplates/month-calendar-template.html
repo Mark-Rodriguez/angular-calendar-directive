@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="week-row-day-events" ng-show="week.selectedDay != null" ng-style="calendarSettings.weekRowStyles">
-                <div class="week-row-day-event" draggable drop-data="event" on-drop="_internal.onEventDrop" ng-repeat="event in week.selectedDay.events"
+                <div class="week-row-day-event" draggable drop-data="{ event:event, dragFromDay:week.selectedDay.date }" draggable-settings="calendarSettings.eventDragSettings" on-drop="_internal.onEventDrop" ng-repeat="event in week.selectedDay.events"
                      ng-click="_internal.onEventClick(event)"
                      ng-dblclick="_internal.onEventDblClick(event);"
                      ng-mouseover="_internal.onEventMouseOver(event);"
@@ -52,6 +52,15 @@
                      ng-mouseup="_internal.onEventMouseUp(event);">
                     <div class="pull-left day-event-name"> {{event.name}} {{_internal.getEventTimeForDay(event, week.selectedDay)}}</div> <div class="pull-left day-event-color-dot" ng-style="event.eventStyle"></div>
                 </div>
+            </div>
+            <div class="month-week-row-tag"
+                 ng-click="_internal.onWeekClick(week)"
+                 ng-dblclick="_internal.onWeekDblClick(week);"
+                 ng-mouseover="_internal.onWeekMouseOver(week);"
+                 ng-mouseleave="_internal.onWeekMouseOut(week);"
+                 ng-mousedown="_internal.onWeekMouseDown(week);"
+                 ng-mouseup="_internal.onWeekMouseUp(week);">
+                Week {{week.weekNumber}}
             </div>
         </div>
     </div>
