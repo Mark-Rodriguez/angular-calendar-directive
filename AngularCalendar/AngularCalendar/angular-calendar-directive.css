@@ -1,4 +1,9 @@
-﻿/*MONTH VIEW STYLES*/
+﻿
+.pull-left {
+  float: left !important;
+}
+
+/*MONTH VIEW STYLES*/
 
 
     .calendar-month-headers{
