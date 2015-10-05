@@ -82,6 +82,7 @@
     <Content Include="img\portfolio-4.jpg" />
     <Content Include="index.html" />
     <Content Include="sample-explain-controller.js" />
+    <Content Include="SampleCalendars\basic-calendar-controller-js.html" />
     <Content Include="SampleCalendars\basic-sample-calendar-styles.css" />
     <Content Include="SampleCalendars\basic-sample-calendar.html" />
     <Content Include="SampleCalendars\calendar-sample-app-js.html" />
