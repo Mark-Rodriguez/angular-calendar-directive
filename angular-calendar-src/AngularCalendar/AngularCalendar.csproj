@@ -68,6 +68,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\stylish-portfolio.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="basic-sample-calendar-explain.html" />
     <Content Include="font-awesome\css\font-awesome.css" />
     <Content Include="font-awesome\css\font-awesome.min.css" />
     <Content Include="font-awesome\fonts\fontawesome-webfont.svg" />
@@ -80,7 +81,12 @@
     <Content Include="img\portfolio-3.jpg" />
     <Content Include="img\portfolio-4.jpg" />
     <Content Include="index.html" />
+    <Content Include="sample-explain-controller.js" />
+    <Content Include="SampleCalendars\basic-calendar-controller-js.html" />
+    <Content Include="SampleCalendars\basic-sample-calendar-styles.css" />
     <Content Include="SampleCalendars\basic-sample-calendar.html" />
+    <Content Include="SampleCalendars\calendar-sample-app-js.html" />
+    <Content Include="SampleCalendars\explain-basic-html.html" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -895,7 +901,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <None Include="Properties\PublishProfiles\angular-calendar-publish.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />

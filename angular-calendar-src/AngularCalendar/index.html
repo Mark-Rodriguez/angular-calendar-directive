@@ -8,9 +8,9 @@
     <meta name="author" content="">
     <title>Stylish Portfolio - Start Bootstrap Theme</title>
     <!-- Bootstrap Core CSS -->
-    <link href="content/bootstrap.min.css" rel="stylesheet">
+    <link href="Content/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="content/stylish-portfolio.css" rel="stylesheet">
+    <link href="Content/stylish-portfolio.css" rel="stylesheet">
     <link href="angular-calendar-directive.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -21,20 +21,21 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="scripts/jquery-1.9.1.min.js"></script>
+    <script src="Scripts/jquery-1.9.1.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="scripts/bootstrap.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
 
     <script src="Scripts/angular.min.js"></script>
     <script src="Scripts/moment.js"></script>
     <script src="angular-drag-and-drop-directive.js"></script>
     <script src="angular-calendar-directive.js"></script>
     <script src="Scripts/App/calendar-sample-app.js"></script>
+    <script src="sample-explain-controller.js"></script>
     <script src="Scripts/App/basic-calendar-controller.js"></script>
     <!-- Custom Theme JavaScript -->
     <script>
 
-        
+
         // Closes the sidebar menu
         $("#menu-close").click(function (e) {
             e.preventDefault();
@@ -123,57 +124,35 @@
                     <div class="col-lg-10 col-lg-offset-1">
                         <h2>Demo</h2>
                         <hr class="small">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-6">
+                        <div class="" style="display:inline-block;margin:0 auto;">
+                            <div class="pull-left" style="margin:10px;">
                                 <div class="service-item">
                                     <span class="fa-stack fa-4x">
                                         <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-cloud fa-stack-1x text-primary"></i>
+                                        <i class="fa fa-calendar fa-stack-1x text-primary"></i>
                                     </span>
                                     <h4>
                                         <strong>Basic Calendar</strong>
                                     </h4>
-                                    <p>A very basic example of the angular calendar directive.</p>
+                                    <p style="max-width:200px;margin:0 auto;margin-bottom:10px;">A very basic example of the angular calendar directive.</p>
                                     <a href="#calendar" class="btn btn-dark btn-lg" ng-click="clickSample('basic-sample-calendar.html');">View</a>
+                                    <a href="#guide-header" class="btn btn-dark btn-lg" ng-click="clickSample('basic-sample-calendar.html');">Guide</a>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-6">
+                            <div class="pull-left" style="margin:10px;">
                                 <div class="service-item">
                                     <span class="fa-stack fa-4x">
                                         <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-compass fa-stack-1x text-primary"></i>
+                                        <i class="fa fa-calendar fa-stack-1x text-primary" style="pointer-events:none;font-size:54px;position:relative;left:-8px;top:3px;">
+                                            <i class="fa fa-plus fa-stack-1x text-primary" style="pointer-events:none;font-size:34px;position:relative;left:33px;top:-160px;"></i>
+                                        </i>
                                     </span>
                                     <h4>
-                                        <strong>Service Name</strong>
+                                        <strong>Advanced Calendar</strong>
                                     </h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                    <a href="#" class="btn btn-light">Learn More</a>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="service-item">
-                                    <span class="fa-stack fa-4x">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-flask fa-stack-1x text-primary"></i>
-                                    </span>
-                                    <h4>
-                                        <strong>Service Name</strong>
-                                    </h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                    <a href="#" class="btn btn-light">Learn More</a>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="service-item">
-                                    <span class="fa-stack fa-4x">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-shield fa-stack-1x text-primary"></i>
-                                    </span>
-                                    <h4>
-                                        <strong>Service Name</strong>
-                                    </h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                    <a href="#" class="btn btn-light">Learn More</a>
+                                    <p style="max-width:200px;margin:0 auto;margin-bottom:10px;">A more advanced calendar sample</p>
+                                    <a href="#calendar" class="btn btn-dark btn-lg" ng-click="clickSample('advanced-sample-calendar.html');">View</a>
+                                    <a href="#guide-header" class="btn btn-dark btn-lg" ng-click="clickSample('advanced-sample-calendar.html');">Guide</a>
                                 </div>
                             </div>
                         </div>
@@ -194,15 +173,35 @@
                     </div>
                 </div>
             </div>
+        </section>        
+        
+        <!-- Call to Action -->
+        <aside id="guide-header" class="call-to-action bg-primary">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>Guide</h2>
+
+                        <span style="font-size:64px;" class="fa fa-chevron-circle-down"></span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <section id="explain" class="portfolio">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center" ng-include="settings.sampleExplainURL">
+                    </div>
+                </div>
+            </div>
         </section>
+
         <!-- Call to Action -->
         <aside class="call-to-action bg-primary">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h3>The buttons below are impossible to resist.</h3>
-                        <a href="#" class="btn btn-lg btn-light">Click Me!</a>
-                        <a href="#" class="btn btn-lg btn-dark">Look at Me!</a>
                     </div>
                 </div>
             </div>
@@ -211,31 +210,45 @@
         <footer>
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-10 col-lg-offset-1 text-center">
+                    <div class="col-lg-5 col-lg-offset-1 text-center pull-left" style="float-left;">
                         <h4>
-                            <strong>Start Bootstrap</strong>
+                            <strong>Mark Rodriguez</strong>
                         </h4>
-                        <p>3481 Melrose Place<br>Beverly Hills, CA 90210</p>
+                        <p>Greenfield, WI 53228</p>
                         <ul class="list-unstyled">
-                            <li><i class="fa fa-phone fa-fw"></i> (123) 456-7890</li>
                             <li>
-                                <i class="fa fa-envelope-o fa-fw"></i>  <a href="mailto:name@example.com">name@example.com</a>
+                                <i class="fa fa-envelope-o fa-fw"></i>  <a href="mailto:mark.rodriguez.dev@gmail.com">mark.rodriguez.dev@gmail.com</a>
                             </li>
                         </ul>
                         <br>
                         <ul class="list-inline">
                             <li>
-                                <a href="#"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
+                                <a href="https://www.linkedin.com/pub/mark-rodriguez/56/277/986"><i class="fa fa-linkedin fa-fw fa-3x"></i></a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-dribbble fa-fw fa-3x"></i></a>
+                                <a href="https://www.behance.net/mark_rodriguez_dev"><i class="fa fa-behance fa-fw fa-3x"></i></a>
                             </li>
                         </ul>
                         <hr class="small">
-                        <p class="text-muted">Copyright &copy; Your Website 2014</p>
+                    </div>
+
+                    <div class="col-lg-5 col-lg-offset-1 text-center pull-left">
+                        <h4>
+                            <strong>Adam Pouchert</strong>
+                        </h4>
+                        <p>Greenfield, WI 53228</p>
+                        <ul class="list-unstyled">
+                            <li>
+                                <i class="fa fa-envelope-o fa-fw"></i>  <a href="mailto:zankwad.dev@gmail.com">zankwad@gmail.com</a>
+                            </li>
+                        </ul>
+                        <br>
+                        <ul class="list-inline">
+                            <li>
+                                <a href="https://www.linkedin.com/pub/adam-pouchert/26/251/124"><i class="fa fa-linkedin fa-fw fa-3x"></i></a>
+                            </li>
+                        </ul>
+                        <hr class="small">
                     </div>
                 </div>
             </div>
