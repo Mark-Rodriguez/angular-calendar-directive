@@ -4,8 +4,31 @@
 }
 
 /*MONTH VIEW STYLES*/
-
-
+div[class^="close-btn"] {
+    position:absolute;
+    color:#999;
+    font-size:18px;
+    cursor:pointer;
+    width:25px;
+    height:25px;
+    line-height:25px;
+    text-align:center;
+}
+div[class^="close-btn"]:hover {
+    color:#cc0000;
+}
+.abs-ur {
+    top:0px;
+    right:0px;
+}
+.week-row-day-event-span {
+    position:absolute;
+    background-color:#4db1d8;
+    border:solid 1px #a6d6e9;
+}
+.week-row-day-event-span.sub {
+    border:none;
+}
     .calendar-month-headers{
         height:35px;
         width:100%;
@@ -52,11 +75,13 @@
         position:relative;
     }
     .week-row-day-events{
+        position:relative;
         border-left:solid 1px #ccc;
         border-top:solid 1px #ccc;
         background-color:#444;
         padding:15px;
         padding-top:10px;
+        padding-left:10px;
         overflow-x:hidden;
         overflow-y:auto;
     }
@@ -93,6 +118,14 @@
         margin-left:10px;
         margin-top:8px;
     }
+    .day-event-color-dot.event-span-previous-day {
+        border-bottom-left-radius:0px;
+        border-top-left-radius:0px;
+    }
+    .day-event-color-dot.event-span-next-day {
+        border-bottom-right-radius:0px;
+        border-top-right-radius:0px;
+    }
     .month-day-event{
         width:10px;
         height:10px;
@@ -101,6 +134,14 @@
         border:solid 1px #aaa;
         float:left;
         margin:2px;
+    }
+    .month-day-event.event-span-previous-day {
+        border-bottom-left-radius:0px;
+        border-top-left-radius:0px;
+    }
+    .month-day-event.event-span-next-day {
+        border-bottom-right-radius:0px;
+        border-top-right-radius:0px;
     }
     .month-day-events{
         position:absolute;

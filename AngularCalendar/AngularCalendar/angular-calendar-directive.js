@@ -1,21 +1,22 @@
 ﻿angular.module("angularCalendarDirective", []).directive('angularCalendar', ["$compile", "$http", function ($compile, $http) {
     return {
-        restrict: "AE",
+        restrict: "AE", //Attributes and element names only. An element with the class name "angular-calendar" will not create a calendar.
         scope: {
-            data:"=data",
-            calendarData:"=calendarData",
-            calendarSettings: "=calendarSettings"
+            data:"=data", 
+            calendarData: "=calendarData", //This object holds the event data for the calendar.
+            calendarSettings: "=calendarSettings" //This object holds the visual settings and interaction functions for the calendar.
         },
         link: function link(scope, element, attrs) {
-            var dir = "CalendarTemplates/";
+            var dir = "CalendarTemplates/"; //Default folder to hold calendar templates.
             
             if (scope.calendarSettings.eventDragSettings == null)
             {
                 scope.calendarSettings.eventDragSettings = {
                     overlayTemplate:"<div class='dragging-overlay bg-primary row text-center' style='pointer-events:none;position:fixed;background-color: #333;padding:5px;-webkit-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.75);-moz-box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.75);box-shadow: 4px 4px 13px 0px rgba(0,0,0,0.75);'></div>"
-                };
+                }; //Set event drag settings if they have not yet been set. These settings are used by the drag and drop directive. The default settings build the overlay template for the events as they are dragged.
             }
 
+            //This allows users to change the template directory in case the CalendarTemplates directory name or location causes them problems.
             if (attrs.calendarTemplateDirectory != null && attrs.calendarTemplateDirectory != undefined)
             {
                 dir = attrs.calendarTemplateDirectory;
@@ -26,6 +27,7 @@
                 }
             }
 
+            //Changes the calendar view when the calendarSettings.view value is changed.
             scope.$watch('calendarSettings.view', function (newValue, oldValue) {
                 if (newValue)
                 {
@@ -38,6 +40,7 @@
                 }
             });
 
+            //This is a function meant to be used outside the calendar directive code. It is accessible after the onInitialized function is called.
             scope.calendarSettings.setCalendarDate = function (date) {
                 scope.calendarSettings.currentDate = date;
 
@@ -46,11 +49,39 @@
                     scope.calendarSettings._internalDateChanged();
                 }
             }
+
+            //This is a function meant to be used outside the calendar directive code. It is accessible after the onInitialized function is called. Events are sorted by startDate ascending.
+            scope.calendarSettings.sortEvents = function () {
+                var sorted = [];
+
+                var tmp = scope.calendarData.events.concat([]);
+
+                while (tmp.length > 0) {
+                    var low = 0;
+
+                    for (var g = 0; g < tmp.length; g++) {
+                        if (tmp[g].dateStart < tmp[low].dateStart) {
+                            low = g;
+                        }
+                    }
+
+                    sorted.push(tmp[low]);
+                    tmp.splice(low, 1);
+                }
+
+                scope.calendarData.events = sorted;
+            }
           
+            //Loads the starting view of the calendar.
             $http.get(dir + scope.calendarSettings.view + '-calendar-template.html')
           .then(function (response) {
               element.html(response.data);
               $compile(element.contents())(scope);
+
+              //This is called after the calendar object has been properly constructed.
+              if (scope.calendarSettings.onInitialized != null) {
+                  scope.calendarSettings.onInitialized();
+              }
           });
         },
         templateURL: function (element, attr) {
@@ -75,6 +106,13 @@
     };
 }]);
 
+//Simple module that adds functionality to calendar navigation to buttons so the user doesnt have to.
+//Here are the 3 different options for buttons. previous-time, current-time, next-time.
+/*
+            <div class="view-button" angular-calendar-time-btn calendar-settings="calendar.settings" previous-time>Previous</div>
+            <div class="view-button" angular-calendar-time-btn calendar-settings="calendar.settings" current-time>Current</div>
+            <div class="view-button" angular-calendar-time-btn calendar-settings="calendar.settings" next-time>Next</div>
+*/
 angular.module("angularCalendarDirective").directive("angularCalendarTimeBtn", [function () {
     return {
         scope: {
@@ -171,9 +209,134 @@ angular.module("angularCalendarDirective").directive("angularCalendarTimeBtn", [
     };
 }]);
 
+//The month view controller
 angular.module("angularCalendarDirective").controller("angular-calendar-month-view-controller", ["$rootScope", "$scope", "$element", "$interval", function ($rootScope, $scope, $element, $interval) {
     
+    //Internal month view functions and functionality.
     $scope._internal = {
+        //Boolean indicating if the event starts before the start of the given day.
+        eventSpanPreviousDay: function(event, day)
+        {
+            var ds = moment(event.dateStart);
+            var dt = moment(day.date);
+
+            dt.startOf("day");
+
+
+
+            if (ds.diff(dt, "days") < 0) {
+                return true;
+            }
+
+            if (ds.diff(dt, "days") > 0) {
+                return true;
+            }
+
+            var millis = ds.diff(dt);
+
+            if (millis < 0) {
+                return true;
+            }
+
+            return false;
+        },
+        //Boolean indicating if the event ends before the end of the given day.
+        eventSpanNextDay: function(event, day)
+        {
+            var ds = moment(event.dateStart);
+
+            ds.add(15, "minutes");
+
+            if (event.dateEnd != null) {
+                ds = moment(event.dateEnd);
+            }
+
+            var dt = moment(day.date);
+
+            dt.startOf("day");
+
+            if (ds.diff(dt, "days") < 0) {
+                return true;
+            }
+
+            if (ds.diff(dt, "days") > 0) {
+                return true;
+            }
+
+            return false;
+        },
+        //This is used when calendarSettings.weekRowType == 'span' to help lay out the events of the selected day.
+        getEventStyles: function (event, day) {
+            var ind = day.events.indexOf(event);
+
+            var rowHeight = $scope.calendarSettings.weekRowHeight
+            var maxHeight = rowHeight - 40;
+
+            var startingY = 35;
+            
+            var itemHeight = Math.max(15, maxHeight / day.events.length);
+
+            var itemSpacing = Math.max(1, (maxHeight - itemHeight)) / Math.max(1, (day.events.length - 1));
+
+
+            return { top:Math.round(startingY + ind * itemSpacing) + "px", bottom:(rowHeight - Math.round(startingY + ind * itemSpacing + itemHeight)) + "px", left: $scope._internal.getEventStartPercentOfDay(event, day), right: $scope._internal.getEventEndPercentOfDay(event, day) };
+        },
+        //This is used when calendarSettings.weekRowType == 'default' or null to help lay out the events of the selected day.
+        getEventSubSpanStyles:function(event, day) {
+            return { top:"0px", bottom:"0px", left: $scope._internal.getEventStartPercentOfDay(event, day), right: $scope._internal.getEventEndPercentOfDay(event, day) };
+        },
+        //Gets the "left" position of the event based on the 
+        getEventStartPercentOfDay: function (event, day) {
+            var ds = moment(event.dateStart);
+            var dt = moment(day.date);
+
+            dt.startOf("day");
+
+
+
+            if (ds.diff(dt, "days") < 0) {
+                return "-1px";
+            }
+
+            if (ds.diff(dt, "days") > 0) {
+                return "-1px";
+            }
+
+            var millis = ds.diff(dt);
+
+            if (millis < 0) {
+                return "-1px";
+            }
+
+            return (millis / (60 * 60 * 24 * 1000)) * 100 + "%";
+
+        },
+        getEventEndPercentOfDay: function (event, day) {
+            var ds = moment(event.dateStart);
+
+            ds.add(15, "minutes");
+
+            if (event.dateEnd != null) {
+                ds = moment(event.dateEnd);
+            }
+
+            var dt = moment(day.date);
+
+            dt.startOf("day");
+
+            if (ds.diff(dt, "days") < 0) {
+                return "-1px";
+            }
+
+            if (ds.diff(dt, "days") > 0) {
+                return "-1px";
+            }
+
+            var millis = ds.diff(dt);
+
+            return (1 - millis / (60 * 60 * 24 * 1000)) * 100 + "%";
+
+        },
         getEventTimeForDay:function(event, day){
             
             var ds = moment(event.dateStart);
@@ -183,7 +346,7 @@ angular.module("angularCalendarDirective").controller("angular-calendar-month-vi
                 de = moment(event.dateEnd);
             }
 
-            if (de == null || (ds.dayOfYear() == de.dayOfYear && ds.year() == de.year()))
+            if (de == null || (ds.dayOfYear() == de.dayOfYear() && ds.year() == de.year()))
             {
                 return ds.format("h:mm A") + ((de != null) ? " - " + de.format("h:mm A") : "");
             }
@@ -240,6 +403,18 @@ angular.module("angularCalendarDirective").controller("angular-calendar-month-vi
             else {
                 event.dateStart = es;
                 event.dateEnd = ee;
+            }
+        },
+        onDayCloseClick: function(day)
+        {
+            $scope.monthView.selectedDay = null;
+
+            for (var g = 0; g < $scope.monthView.weeks.length; g++) {
+                $scope.monthView.weeks[g].selectedDay = null;
+            }
+
+            if ($scope.calendarSettings.onDayCloseClick != null) {
+                $scope.calendarSettings.onDayCloseClick(day);
             }
         },
         onDayClick: function (day) {
@@ -414,6 +589,8 @@ angular.module("angularCalendarDirective").controller("angular-calendar-month-vi
         var curr = sund.clone();
 
         var startWeek = sund.week();
+
+        $scope.calendarSettings.sortEvents();
 
         for (var g = 0; g < $scope.calendarData.events.length; g++)
         {

@@ -72,7 +72,10 @@
     <Content Include="font-awesome\css\font-awesome.css" />
     <Content Include="font-awesome\css\font-awesome.min.css" />
     <Content Include="font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\fonts\angular-calendar-font.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\icons-reference.html" />
+    <Content Include="fonts\styles.css" />
     <Content Include="img\bg.jpg" />
     <Content Include="img\bg-orig.jpg" />
     <Content Include="img\callout.jpg" />
@@ -901,6 +904,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\fonts\angular-calendar-font.eot" />
+    <Content Include="fonts\fonts\angular-calendar-font.ttf" />
+    <Content Include="fonts\fonts\angular-calendar-font.woff" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />

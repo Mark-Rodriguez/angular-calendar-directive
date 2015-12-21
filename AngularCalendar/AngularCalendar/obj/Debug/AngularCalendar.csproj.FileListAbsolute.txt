@@ -10,3 +10,9 @@ F:\Users\mark\Documents\GitHub\angular-calendar-directive\AngularCalendar\Angula
 F:\Users\mark\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\obj\Debug\AngularCalendar.csprojResolveAssemblyReference.cache
 F:\Users\mark\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\obj\Debug\AngularCalendar.dll
 F:\Users\mark\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\obj\Debug\AngularCalendar.pdb
+C:\Users\eroma_000\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\bin\AngularCalendar.dll.config
+C:\Users\eroma_000\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\bin\AngularCalendar.dll
+C:\Users\eroma_000\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\bin\AngularCalendar.pdb
+C:\Users\eroma_000\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\obj\Debug\AngularCalendar.csprojResolveAssemblyReference.cache
+C:\Users\eroma_000\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\obj\Debug\AngularCalendar.dll
+C:\Users\eroma_000\Documents\GitHub\angular-calendar-directive\AngularCalendar\AngularCalendar\obj\Debug\AngularCalendar.pdb

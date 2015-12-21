@@ -36,13 +36,18 @@
                         {{day.date.date()}}
                     </div>
                     <div class="month-day-events">
-                        <div class="month-day-event" ng-repeat="event in day.events" ng-style="event.eventStyle">
+                        <div class="month-day-event" ng-class="{ 'event-span-previous-day':_internal.eventSpanPreviousDay(event, day), 'event-span-next-day':_internal.eventSpanNextDay(event, day) }" ng-repeat="event in day.events" ng-style="event.eventStyle">
 
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="week-row-day-events" ng-show="week.selectedDay != null" ng-style="calendarSettings.weekRowStyles">
+            <div class="week-row-day-events" ng-show="week.selectedDay != null && calendarSettings.weekRowType == 'span'" ng-style="calendarSettings.weekRowStyles">
+                <div class="week-row-day-event-span" ng-repeat="event in week.selectedDay.events" ng-style="_internal.getEventStyles(event, week.selectedDay);">
+                    <div class="day-event-name"> {{event.name}} {{_internal.getEventTimeForDay(event, week.selectedDay)}}</div>
+                </div>
+            </div>
+            <div class="week-row-day-events" ng-show="week.selectedDay != null && (calendarSettings.weekRowType == 'default' || calendarSettings.weekRowType == null)" ng-style="calendarSettings.weekRowStyles">
                 <div class="week-row-day-event" draggable drop-data="{ event:event, dragFromDay:week.selectedDay.date }" draggable-settings="calendarSettings.eventDragSettings" on-drop="_internal.onEventDrop" ng-repeat="event in week.selectedDay.events"
                      ng-click="_internal.onEventClick(event)"
                      ng-dblclick="_internal.onEventDblClick(event);"
@@ -50,7 +55,16 @@
                      ng-mouseleave="_internal.onEventMouseOut(event);"
                      ng-mousedown="_internal.onEventMouseDown(event);"
                      ng-mouseup="_internal.onEventMouseUp(event);">
-                    <div class="pull-left day-event-name"> {{event.name}} {{_internal.getEventTimeForDay(event, week.selectedDay)}}</div> <div class="pull-left day-event-color-dot" ng-style="event.eventStyle"></div>
+                    <div class="clearfix">
+                        <div class="pull-left day-event-name"> {{event.name}} {{_internal.getEventTimeForDay(event, week.selectedDay)}}</div> <div class="pull-left day-event-color-dot" ng-style="event.eventStyle" ng-class="{ 'event-span-previous-day':_internal.eventSpanPreviousDay(event, week.selectedDay), 'event-span-next-day':_internal.eventSpanNextDay(event, week.selectedDay) }"></div>
+                    </div>
+                    <div class="day-event-span" style="position:relative;height:10px;border:solid 1px #b7d1e4;">
+                        <div class="week-row-day-event-span sub" ng-style="_internal.getEventSubSpanStyles(event, week.selectedDay);">
+                        </div>
+                    </div>
+                </div>
+                <div class="close-btn abs-ur ang-cal-icon-times" ng-click="_internal.onDayCloseClick(week.selectedDay);">
+
                 </div>
             </div>
             <div class="month-week-row-tag"

@@ -3,6 +3,7 @@
     {
         settings:
         {
+            weekRowType:"default",
             //Change view to switch between calendar views. Valid values are "year", "month", "week", "day"
             view: "month",
             //Change currentDate to change the date range of the current calendar view.
@@ -31,6 +32,21 @@
             onDayMouseUp:function(day)
             {
 
+            },
+            onInitialized:function()
+            {
+                for (var g = 0; g < 250; g++) {
+                    var d = new Date($scope.getRandomSpan(1, 12) + "/" + $scope.getRandomSpan(1, 28) + "/2015 " + $scope.getRandomSpan(1, 12) + ":00:00 PM");
+                    $scope.calendar.data.events.push({
+                        dateStart: d,
+                        dateEnd: moment(d).add($scope.getRandomSpan(1, 5) * 150, "minutes"),
+                        color: "white",
+                        backgroundColor: '#'+Math.floor(Math.random()*16777215).toString(16),
+                        name: $scope.getRandomName()
+                    });
+                }
+
+                $scope.calendar.settings.sortEvents();
             }
         },
         data:
@@ -68,16 +84,6 @@
         return lasts[$scope.getRandomSpan(0, lasts.length - 1)] + ", " + firsts[$scope.getRandomSpan(0, firsts.length - 1)];
     }
 
-    for (var g = 0; g < 50; g++) {
-        var d = new Date($scope.getRandomSpan(1, 12) + "/" + $scope.getRandomSpan(1, 28) + "/2015 " + $scope.getRandomSpan(1, 12) + ":00:00 PM");
-        $scope.calendar.data.events.push({
-            dateStart: d,
-            dateEnd: moment(d).add($scope.getRandomSpan(0, 176) * 25, "minutes"),
-            color: "white",
-            backgroundColor: "#000",
-            name: $scope.getRandomName()
-        });
-    }
 
     $scope.getYear = function () {
         return moment($scope.calendar.settings.currentDate).format("YYYY");
