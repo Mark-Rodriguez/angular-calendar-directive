@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>Angular-Calendar-Directive-MRR</id>
+        <version>1.0.2</version>
+        <title>Angular Calendar Directive MRR</title>
+        <authors>Mark Rodriguez</authors>
+        <owners>Mark Rodriguez</owners>
+        <projectUrl>http://mark-rodriguez.github.io/angular-calendar-directive/</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Angular Calendar directive with events and drag and drop functionality. Currently MONTH VIEW ONLY.</description>
+        <summary>Angular Calendar directive with events and drag and drop functionality. Currently MONTH VIEW ONLY.</summary>
+        <releaseNotes>Year, Week, Day views are in need of development.</releaseNotes>
+        <copyright>Mark Rodriguez 2015</copyright>
+        <language>en-US</language>
+        <tags>Calendar, Angular</tags>
+        <dependencies>
+            <group targetFramework=".NETFramework4.5">
+                <dependency id="bootstrap" version="3.0.0" />
+                <dependency id="Angular.UI.Bootstrap" version="0.14.0" />
+                <dependency id="jQuery" version="2.0.0" />
+                <dependency id="AngularJS.Core" version="1.4.8" />
+                <dependency id="Moment.js" version="2.10.6" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\CalendarDirective\angular-calendar-directive.js" target="Content\CalendarDirective\angular-calendar-directive.js" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\CalendarDirective\angular-drag-and-drop-directive.js" target="Content\CalendarDirective\angular-drag-and-drop-directive.js" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\CalendarTemplates\day-calendar-template.html" target="Content\CalendarTemplates\day-calendar-template.html" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\CalendarTemplates\month-calendar-template.html" target="Content\CalendarTemplates\month-calendar-template.html" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\CalendarTemplates\week-calendar-template.html" target="Content\CalendarTemplates\week-calendar-template.html" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\CalendarTemplates\year-calendar-template.html" target="Content\CalendarTemplates\year-calendar-template.html" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\fonts\fonts\angular-calendar-font.eot" target="Content\fonts\fonts\angular-calendar-font.eot" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\fonts\fonts\angular-calendar-font.svg" target="Content\fonts\fonts\angular-calendar-font.svg" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\fonts\fonts\angular-calendar-font.ttf" target="Content\fonts\fonts\angular-calendar-font.ttf" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\fonts\fonts\angular-calendar-font.woff" target="Content\fonts\fonts\angular-calendar-font.woff" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\fonts\icon-styles.css" target="Content\fonts\icon-styles.css" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\fonts\icons-reference.html" target="Content\fonts\icons-reference.html" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\Scripts\App\SampleCalendarApp.js" target="Content\Scripts\App\SampleCalendarApp.js" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\styles\angular-calendar-directive.css" target="Content\styles\angular-calendar-directive.css" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\styles\basic-sample-calendar-styles.css" target="Content\styles\basic-sample-calendar-styles.css" />
+        <file src="..\..\Visual Studio 2013\Projects\Angular Calendar Blank App\SampleCalendar.html" target="Content\SampleCalendar.html" />
+    </files>
+</package>
